@@ -16,7 +16,7 @@ export default defineConfig({
             "@react-three/postprocessing",
             "@react-three/rapier",
           ],
-          gsap: ["gsap", "gsap-trial"],
+          gsap: ["gsap"],
         },
       },
     },
