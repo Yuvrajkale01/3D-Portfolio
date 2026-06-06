@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { useRef, useMemo, useState, useEffect } from "react";
+import { useRef, useMemo, useState, useEffect, memo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
-import { EffectComposer, N8AO } from "@react-three/postprocessing";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   BallCollider,
   Physics,
@@ -14,19 +14,21 @@ import {
 const textureLoader = new THREE.TextureLoader();
 const imageUrls = [
   "/images/react2.webp",
-  "/images/next2.webp",
   "/images/node2.webp",
   "/images/express.webp",
   "/images/mongo.webp",
   "/images/mysql.webp",
-  "/images/typescript.webp",
   "/images/javascript.webp",
+  "/images/typescript.webp",
+  "/images/next2.webp",
 ];
 const textures = imageUrls.map((url) => textureLoader.load(url));
 
-const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
+// Reduced from 28 to 16 segments — saves ~60% triangles per sphere
+const sphereGeometry = new THREE.SphereGeometry(1, 16, 16);
 
-const spheres = [...Array(30)].map(() => ({
+// Reduced from 30 to 20 spheres — less physics bodies + render calls
+const spheres = [...Array(20)].map(() => ({
   scale: [0.7, 1, 0.8, 1, 1][Math.floor(Math.random() * 5)],
 }));
 
@@ -38,7 +40,7 @@ type SphereProps = {
   isActive: boolean;
 };
 
-function SphereGeo({
+const SphereGeo = memo(function SphereGeo({
   vec = new THREE.Vector3(),
   scale,
   r = THREE.MathUtils.randFloatSpread,
@@ -89,7 +91,7 @@ function SphereGeo({
       />
     </RigidBody>
   );
-}
+});
 
 type PointerProps = {
   vec?: THREE.Vector3;
@@ -147,10 +149,12 @@ const TechStack = () => {
       });
     });
     window.addEventListener("scroll", handleScroll);
+    ScrollTrigger.refresh();
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   const materials = useMemo(() => {
     return textures.map(
       (texture) =>
@@ -166,15 +170,31 @@ const TechStack = () => {
     );
   }, []);
 
+  // Memoize material assignments so they don't re-randomize on every render
+  const sphereMaterials = useMemo(() => {
+    return spheres.map(
+      () => materials[Math.floor(Math.random() * materials.length)]
+    );
+  }, [materials]);
+
   return (
     <div className="techstack">
       <h2> My Techstack</h2>
 
       <Canvas
-        shadows
-        gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
+        frameloop={isActive ? "always" : "never"}
+        gl={{
+          alpha: true,
+          stencil: false,
+          depth: false,
+          antialias: false,
+          powerPreference: "high-performance",
+        }}
         camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
-        onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
+        onCreated={(state) => {
+          state.gl.toneMappingExposure = 1.5;
+          state.gl.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        }}
         className="tech-canvas"
       >
         <ambientLight intensity={1} />
@@ -183,8 +203,6 @@ const TechStack = () => {
           penumbra={1}
           angle={0.2}
           color="white"
-          castShadow
-          shadow-mapSize={[512, 512]}
         />
         <directionalLight position={[0, 5, -4]} intensity={2} />
         <Physics gravity={[0, 0, 0]}>
@@ -193,7 +211,7 @@ const TechStack = () => {
             <SphereGeo
               key={i}
               {...props}
-              material={materials[Math.floor(Math.random() * materials.length)]}
+              material={sphereMaterials[i]}
               isActive={isActive}
             />
           ))}
@@ -203,9 +221,6 @@ const TechStack = () => {
           environmentIntensity={0.5}
           environmentRotation={[0, 4, 2]}
         />
-        <EffectComposer enableNormalPass={false}>
-          <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
-        </EffectComposer>
       </Canvas>
     </div>
   );

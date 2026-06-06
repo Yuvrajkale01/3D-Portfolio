@@ -97,7 +97,16 @@ body {
   height: var(--vh);
   margin: auto;
   margin-top: 50px;
-  margin-bottom: -100px;
+  margin-bottom: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+.techstack canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .techstack h2 {

@@ -24,6 +24,7 @@
   filter: blur(60px);
   border-radius: 50%;
   animation: loadingCircle 5s linear infinite;
+  will-change: transform;
 }
 .nav-fade {
   position: fixed;

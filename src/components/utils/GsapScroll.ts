@@ -5,10 +5,8 @@ export function setCharTimeline(
   character: THREE.Object3D<THREE.Object3DEventMap> | null,
   camera: THREE.PerspectiveCamera
 ) {
-  let intensity: number = 0;
-  setInterval(() => {
-    intensity = Math.random();
-  }, 200);
+  // Intensity is evaluated fresh each GSAP repeat via repeatRefresh — no setInterval needed
+  let intensity: number = Math.random();
   const tl1 = gsap.timeline({
     scrollTrigger: {
       trigger: ".landing-section",

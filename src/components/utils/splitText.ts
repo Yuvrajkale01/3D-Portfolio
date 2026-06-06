@@ -10,6 +10,8 @@ interface ParaElement extends HTMLElement {
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 
+let splitTextInitialized = false;
+
 export default function setSplitText() {
   ScrollTrigger.config({ ignoreMobileResize: true });
   if (window.innerWidth < 900) return;
@@ -32,7 +34,7 @@ export default function setSplitText() {
     });
 
     para.anim = gsap.fromTo(
-      para.split.words,
+      para.split!.words,
       { autoAlpha: 0, y: 80 },
       {
         autoAlpha: 1,
@@ -58,7 +60,7 @@ export default function setSplitText() {
       linesClass: "split-line",
     });
     title.anim = gsap.fromTo(
-      title.split.chars,
+      title.split!.chars,
       { autoAlpha: 0, y: 80, rotate: 10 },
       {
         autoAlpha: 1,
@@ -76,5 +78,9 @@ export default function setSplitText() {
     );
   });
 
-  ScrollTrigger.addEventListener("refresh", () => setSplitText());
+  // Only register the refresh listener once to prevent exponential listener growth
+  if (!splitTextInitialized) {
+    splitTextInitialized = true;
+    ScrollTrigger.addEventListener("refresh", () => setSplitText());
+  }
 }
