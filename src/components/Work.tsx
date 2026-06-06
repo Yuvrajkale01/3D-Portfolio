@@ -69,7 +69,7 @@ const Work = () => {
               <h4>Tools and features</h4>
               <p>Python, React, MongoDB, REST APIs</p>
             </div>
-            <WorkImage image="public/images/forensic.png" alt="Digital Forensics Tool" />
+            <WorkImage image="/images/forensic.png" alt="Digital Forensics Tool" />
           </div>
           <div className="work-box">
             <div className="work-info">
@@ -83,7 +83,7 @@ const Work = () => {
               <h4>Tools and features</h4>
               <p>Python, Scikit-learn, Pandas, NumPy</p>
             </div>
-            <WorkImage image="public\images\AI_Based_Risk_Assesment.png" alt="AI Risk Assessment" />
+            <WorkImage image="/images/AI_Based_Risk_Assesment.png" alt="AI Risk Assessment" />
           </div>
           <div className="work-box">
             <div className="work-info">
@@ -97,7 +97,7 @@ const Work = () => {
               <h4>Tools and features</h4>
               <p>React.js, JavaScript, HTML5, CSS3</p>
             </div>
-            <WorkImage image="public\images\Spotify.png" alt="Spotify Clone" />
+            <WorkImage image="/images/Spotify.png" alt="Spotify Clone" />
           </div>
           <div className="work-box">
             <div className="work-info">
@@ -111,7 +111,7 @@ const Work = () => {
               <h4>Tools and features</h4>
               <p>Python, TensorFlow, Scikit-learn</p>
             </div>
-            <WorkImage image="public\images\stockmarket.png" alt="ML Models" />
+            <WorkImage image="/images/stockmarket.png" alt="ML Models" />
           </div>
           <div className="work-box">
             <div className="work-info">
@@ -125,7 +125,7 @@ const Work = () => {
               <h4>Tools and features</h4>
               <p>Java Spring Boot, React.js, MongoDB, Docker, Redis</p>
             </div>
-            <WorkImage image="public\images\E-commerse.png" alt="E-Commerce Platform" />
+            <WorkImage image="/images/E-commerse.png" alt="E-Commerce Platform" />
           </div>
           <div className="work-box">
             <div className="work-info">
@@ -139,7 +139,7 @@ const Work = () => {
               <h4>Tools and features</h4>
               <p>Python, NLP, FastAPI, React.js, MongoDB</p>
             </div>
-            <WorkImage image="public\images\AI_Resume.png" alt="Resume Screening System" />
+            <WorkImage image="/images/AI_Resume.png" alt="Resume Screening System" />
           </div>
         </div>
       </div>
